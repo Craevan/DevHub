@@ -17,7 +17,7 @@ node {
          stage('Deploy docker') {
                   echo "Docker Image Tag Name: ${dockerImageTag}"
                   sh "docker stop devhub || true && docker rm devhub || true"
-                  sh "docker run --name devhub -d -p 8081:8081 devhub:${env.BUILD_NUMBER}"
+                  sh "docker run --name devhub -d -p 8081:8081 devhub:${env.BUILD_NUMBER} --link devhubdb"
          }
     } catch(e) {
 //         currentBuild.result = "FAILED"

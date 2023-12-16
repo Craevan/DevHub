@@ -4,5 +4,5 @@ server:
 spring:
   data:
     mongodb:
-      host: devhubdb
+      host: 172.17.0.2
       database: devhub

@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>dev.crevan</groupId>
-    <artifactId>Magazinus</artifactId>
+    <artifactId>DevHub</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>Magazinus</name>
-    <description>Magazinus</description>
+    <name>DevHub</name>
+    <description>DevHub</description>
     <properties>
         <java.version>17</java.version>
     </properties>

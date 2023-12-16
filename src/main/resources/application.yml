@@ -1,0 +1,8 @@
+server:
+  port: 8081
+
+spring:
+  data:
+    mongodb:
+      host: devhubdb
+      database: DevHub

@@ -1,5 +1,5 @@
 # Docker Build Stage
-FROM openjdk:17-jdk-slim AS build
+FROM maven:3.8-openjdk-17 AS build
 
 
 # Build Stage
@@ -10,7 +10,7 @@ RUN mvn clean install -DskipTests
 
 
 # Docker Build Stage
-FROM openjdk:17-jdk-slim
+FROM maven:3.8-openjdk-17
 
 COPY --from=build /opt/app/target/*.jar app.jar
 

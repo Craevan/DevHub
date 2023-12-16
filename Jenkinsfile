@@ -8,7 +8,7 @@ node {
             // for display purposes
             // Get some code from a GitHub repository
             git url: 'https://github.com/Craevan/DevHub.git',
-                branch: 'main'
+                branch: 'master'
          }
          stage('Build docker') {
                  dockerImage = docker.build("DevHub:${env.BUILD_NUMBER}")

@@ -2,6 +2,7 @@ package dev.crevan.magazinus.controller.web;
 
 import dev.crevan.magazinus.model.Course;
 import dev.crevan.magazinus.repository.CourseRepository;
+import dev.crevan.magazinus.service.CourseService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,7 +21,13 @@ public class CourseController {
 
     static final String ROUTE = "/course";
 
-    private final CourseRepository repository;
+    private final CourseService courseService;
+
+    @GetMapping
+    public String indexAction(final Model model) {
+        model.addAttribute("courses", courseService.getAll());
+        return "course/index";
+    }
 
     @GetMapping("/add")
     public String getCreateForm(final Model model) {
@@ -33,7 +40,7 @@ public class CourseController {
         course.setName(formData.getFirst("name"));
         course.setDescription(formData.getFirst("description"));
         course.setPrice(Integer.parseInt(Objects.requireNonNull(formData.getFirst("price"))));
-        System.err.println(repository.save(course));
+        courseService.save(course);
         return "redirect:" + ROUTE;
     }
 }

@@ -17,4 +17,4 @@ COPY --from=build /opt/app/target/*.jar app.jar
 ENV PORT 8081
 EXPOSE $PORT
 
-ENTRYPOINT ["java","-jar","-Xmx1024M","-Dserver.port=${PORT}","app.jar"]
+ENTRYPOINT ["java","-Dspring.data.mongodb.uri=mongodb://devhubdb:27017/devhub", "-jar","-Xmx1024M","-Dserver.port=${PORT}","app.jar"]

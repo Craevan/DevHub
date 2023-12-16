@@ -1,6 +1,6 @@
 node {
     def WORKSPACE = "/var/lib/jenkins/workspace/DevHub"
-    def dockerImageTag = "DevHub${env.BUILD_NUMBER}"
+    def dockerImageTag = "devhub${env.BUILD_NUMBER}"
 
     try {
 //          notifyBuild('STARTED')
@@ -11,13 +11,13 @@ node {
                 branch: 'master'
          }
          stage('Build docker') {
-                 dockerImage = docker.build("DevHub:${env.BUILD_NUMBER}")
+                 dockerImage = docker.build("devhub:${env.BUILD_NUMBER}")
          }
 
          stage('Deploy docker') {
                   echo "Docker Image Tag Name: ${dockerImageTag}"
-                  sh "docker stop DevHub || true && docker rm DevHub || true"
-                  sh "docker run --name DevHub -d -p 8081:8081 DevHub:${env.BUILD_NUMBER}"
+                  sh "docker stop devhub || true && docker rm devhub || true"
+                  sh "docker run --name devhub -d -p 8081:8081 devhub:${env.BUILD_NUMBER}"
          }
     } catch(e) {
 //         currentBuild.result = "FAILED"

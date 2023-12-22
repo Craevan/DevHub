@@ -3,7 +3,7 @@ node {
     def dockerImageTag = "devhub${env.BUILD_NUMBER}"
 
     try {
-//          notifyBuild('STARTED')
+         notifyBuild('STARTED')
          stage('Clone Repo') {
             // for display purposes
             // Get some code from a GitHub repository
@@ -20,10 +20,10 @@ node {
                   sh "docker run --name devhub -d -p 8081:8081 devhub:${env.BUILD_NUMBER}"
          }
     } catch(e) {
-//         currentBuild.result = "FAILED"
+        currentBuild.result = "FAILED"
         throw e
     } finally {
-//         notifyBuild(currentBuild.result)
+        notifyBuild(currentBuild.result)
     }
 }
 

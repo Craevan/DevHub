@@ -25,31 +25,25 @@ node {
             sh "docker stop devhub || true && docker rm devhub || true"
             sh "docker run --name devhub -d -p 8081:8081 devhub:${env.BUILD_NUMBER}"
         }
+
     } catch (e) {
-        notifyFailed()
+        currentBuild.result = "FAILED"
         throw e
     } finally {
-        notifySuccessful()
+        notifyBuild(currentBuild.result)
     }
 }
 
-def notifySuccessful() {
+def notifyBuild(String buildStatus) {
+    buildStatus = buildStatus ?: 'SUCCESS'
+
+    def subject = "${buildStatus}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'"
+    def details = """<p>STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
+    <p>Check console output at &QUOT;<a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BUILD_NUMBER}]</a></p>"""
 
     emailext(
-            to: "a.siverskii@gmail.com",
-            subject: "SUCCESSFUL: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
-            body: """<p>SUCCESSFUL: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
-        <p>Check console output at &QUOT;<a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BUILD_NUMBER}]</a>&QUOT;</p>""",
-            recipientProviders: [[$class: 'DevelopersRecipientProvider']]
-    )
-}
-
-def notifyFailed() {
-    emailext(
-            to: "a.siverskii@gmail.com",
-            subject: "FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
-            body: """<p>FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
-        <p>Check console output at &QUOT;<a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BUILD_NUMBER}]</a>&QUOT;</p>""",
+            subject: subject,
+            body: details,
             recipientProviders: [[$class: 'DevelopersRecipientProvider']]
     )
 }

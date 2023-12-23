@@ -9,14 +9,12 @@ node {
         }
 
         stage('Test') {
-            steps {
-                sh 'mvn test'
-            }
-            post {
-                always {
-                    junit 'target/surefire-reports/*.xml'
-                }
-            }
+            sh 'mvn test'
+//            post {
+//                always {
+//                    junit 'target/surefire-reports/*.xml'
+//                }
+//            }
         }
 
         stage('Build docker') {
@@ -37,7 +35,7 @@ node {
 
 def notifySuccessful() {
 
-    emailext (
+    emailext(
             to: "a.siverskii@gmail.com",
             subject: "SUCCESSFUL: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
             body: """<p>SUCCESSFUL: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
@@ -47,7 +45,7 @@ def notifySuccessful() {
 }
 
 def notifyFailed() {
-    emailext (
+    emailext(
             to: "a.siverskii@gmail.com",
             subject: "FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
             body: """<p>FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>

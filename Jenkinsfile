@@ -30,9 +30,10 @@ node {
 }
 
 def notifyBuild(String buildStatus) {
+    buildStatus = buildStatus ?: 'SUCCESS'
 
-    def subject = buildStatus + ": Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'"
-    def details = buildStatus + """<p>: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'</p>
+    def subject = "${buildStatus}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'"
+    def details = """<p>${buildStatus}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'</p>
     <p>Check console output at <a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BUILD_NUMBER}]</a></p>"""
 
     emailext(

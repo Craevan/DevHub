@@ -1,6 +1,6 @@
 node {
     def WORKSPACE = "/var/lib/jenkins/workspace/DevHub"
-    def dockerImageTag = "devhub:${env.BUILD_NUMBER}"
+    def dockerImageTag = "devhub${env.BUILD_NUMBER}"
 
     try {
         stage('Clone Repo') {
@@ -10,22 +10,17 @@ node {
 
         stage('Test') {
             sh 'mvn test'
-            post {
-                always {
-                    junit 'target/surefire-reports/*.xml'
-                }
-            }
         }
 
         stage('Build docker') {
-            dockerImage = docker.build(dockerImageTag)
+            dockerImage = docker.build("devhub:${env.BUILD_NUMBER}")
         }
 
         stage('Deploy docker') {
             sh "docker stop devhub || true && docker rm devhub || true"
-            sh "docker run -d --name devhub -p 8081:8081 devhub:${env.BUILD_NUMBER}"
+            sh "docker run --name devhub -d -p 8081:8081 devhub:${env.BUILD_NUMBER}"
         }
-        currentBuild.result = "SUCCESS"
+
     } catch (e) {
         currentBuild.result = "FAILED"
         throw e

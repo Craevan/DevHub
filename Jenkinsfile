@@ -25,14 +25,14 @@ node {
         currentBuild.result = "FAILED"
         throw e
     } finally {
-        notifyBuild()
+        notifyBuild(currentBuild.result)
     }
 }
 
-def notifyBuild() {
+def notifyBuild(String buildStatus) {
 
-    def subject = "${currentBuild.result}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'"
-    def details = """<p>${currentBuild.result}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'</p>
+    def subject = buildStatus + ": Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'"
+    def details = buildStatus + """<p>: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'</p>
     <p>Check console output at <a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BUILD_NUMBER}]</a></p>"""
 
     emailext(

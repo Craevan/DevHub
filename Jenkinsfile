@@ -10,7 +10,6 @@ node {
 
         stage('Testing') {
             sh 'mvn test'
-            throw new RuntimeException()
         }
 
         stage('Build docker') {

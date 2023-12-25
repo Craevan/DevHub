@@ -18,7 +18,7 @@ node {
 
         stage('Deploy docker') {
             sh "docker stop devhub || true && docker rm devhub || true"
-            sh "docker run --name devhub -d -p 8081:8081 devhub:${env.BUILD_NUMBER}"
+            sh "docker run -d --name devhub -p 8081:8081 devhub:${env.BUILD_NUMBER}"
         }
 
     } catch (e) {
